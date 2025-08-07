@@ -5,15 +5,35 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Calculateur de Score 4Story</title>
   <style>
-    body { font-family: sans-serif; padding: 1rem; }
-    table { border-collapse: collapse; margin: auto; }
-    th, td { border: 1px solid #333; padding: 0.5rem 1rem; text-align: center; }
-    input { width: 4ch; }
-    .clean { color: #090; font-weight: bold; margin-top: 1rem; text-align: center; }
+    body { font-family: sans-serif; padding: 1rem; max-width: 600px; margin: auto; }
+    h1 { text-align: center; }
+    .form-group { margin-bottom: 1rem; }
+    label { display: block; margin-bottom: 0.25rem; }
+    input[type="text"], input[type="date"], input[type="url"], input[type="number"] {
+      width: 100%; padding: 0.5rem; box-sizing: border-box;
+    }
+    table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+    th, td { border: 1px solid #333; padding: 0.5rem; text-align: center; }
+    input.small { width: 4ch; }
+    .clean { color: #090; font-weight: bold; margin-top: 0.5rem; text-align: center; }
+    #output { width: 100%; height: 12rem; }
+    button { padding: 0.5rem 1rem; cursor: pointer; }
   </style>
 </head>
 <body>
   <h1>Score 4Story</h1>
+  <div class="form-group">
+    <label for="pseudo">Pseudo :</label>
+    <input type="text" id="pseudo" placeholder="Votre pseudo">
+  </div>
+  <div class="form-group">
+    <label for="serveur">Serveur :</label>
+    <input type="text" id="serveur" placeholder="Nom du serveur">
+  </div>
+  <div class="form-group">
+    <label for="date">Date du BG :</label>
+    <input type="date" id="date">
+  </div>
   <table>
     <thead>
       <tr>
@@ -25,35 +45,93 @@
     </thead>
     <tbody>
       <tr>
-        <td><input type="number" id="kills" value="0" min="0"></td>
-        <td><input type="number" id="assists" value="0" min="0"></td>
-        <td><input type="number" id="deaths" value="0" min="0"></td>
+        <td><input type="number" id="kills" value="0" min="0" class="small"></td>
+        <td><input type="number" id="assists" value="0" min="0" class="small"></td>
+        <td><input type="number" id="deaths" value="0" min="0" class="small"></td>
         <td id="score">0</td>
       </tr>
     </tbody>
   </table>
   <p id="bonus" class="clean" style="display:none;">🎉 Clean ! +5 pts bonus</p>
-  <script>
-    const K = document.getElementById('kills'),
-          A = document.getElementById('assists'),
-          D = document.getElementById('deaths'),
-          S = document.getElementById('score'),
-          B = document.getElementById('bonus');
+  <div class="form-group">
+    <label for="video">Lien vidéo :</label>
+    <input type="url" id="video" placeholder="https://">
+  </div>
+  <button id="generate">Générer le texte & copier</button>
+  <div class="form-group">
+    <label for="output">Texte à copier :</label>
+    <textarea id="output" readonly></textarea>
+  </div>
 
-    function update() {
-      const k = +K.value, a = +A.value, d = +D.value;
+  <script>
+    const elt = {
+      P: document.getElementById('pseudo'),
+      Srv: document.getElementById('serveur'),
+      Dt: document.getElementById('date'),
+      K: document.getElementById('kills'),
+      A: document.getElementById('assists'),
+      D: document.getElementById('deaths'),
+      Scr: document.getElementById('score'),
+      B: document.getElementById('bonus'),
+      Vid: document.getElementById('video'),
+      Out: document.getElementById('output'),
+      Btn: document.getElementById('generate')
+    };
+
+    function calcScore() {
+      const k = +elt.K.value;
+      const a = +elt.A.value;
+      const d = +elt.D.value;
       let score = k*2 + a - d;
-      if(d===0 && (k>0||a>0)) {
+      if(d === 0 && (k > 0 || a > 0)) {
         score += 5;
-        B.style.display = 'block';
+        elt.B.style.display = 'block';
       } else {
-        B.style.display = 'none';
+        elt.B.style.display = 'none';
       }
-      S.textContent = score;
+      elt.Scr.textContent = score;
+      return score;
     }
 
-    [K,A,D].forEach(el => el.addEventListener('input', update));
-    update();
+    function formatDate(input) {
+      const d = new Date(input);
+      if(isNaN(d)) return '';
+      const dd = String(d.getDate()).padStart(2, '0');
+      const mm = String(d.getMonth()+1).padStart(2, '0');
+      const yyyy = d.getFullYear();
+      return `${dd}/${mm}/${yyyy}`;
+    }
+
+    function generateText() {
+      const pseudo = elt.P.value.trim();
+      const serveur = elt.Srv.value.trim();
+      const dateBG = formatDate(elt.Dt.value);
+      const kills = elt.K.value;
+      const assists = elt.A.value;
+      const deaths = elt.D.value;
+      const score = calcScore();
+      const video = elt.Vid.value.trim();
+
+      const text =
+`Pseudo : ${pseudo}
+Serveur : ${serveur}
+Date du BG : ${dateBG}
+Kills : ${kills}
+Assists : ${assists}
+Morts : ${deaths}
+Points ((Kills×2)+(Assists×1)−(Morts×1)) : ${score}
+Lien vidéo : ${video}
+Capture d'écran : `;
+      elt.Out.value = text;
+      navigator.clipboard.writeText(text).then(() => {
+        elt.Btn.textContent = 'Copié !';
+        setTimeout(() => elt.Btn.textContent = 'Générer le texte & copier', 2000);
+      });
+    }
+
+    [elt.K, elt.A, elt.D].forEach(i => i.addEventListener('input', calcScore));
+    elt.Btn.addEventListener('click', generateText);
+    calcScore();
   </script>
 </body>
 </html>

@@ -5,21 +5,23 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Calculateur de Score 4Story</title>
   <style>
-    body {
+    html, body {
       margin: 0;
       padding: 0;
-      /* Fond battleground 4Story */
-      background-image: url('https://images.alphacoders.com/235/235359.jpg');
+      height: 100%;
+    }
+    body {
+      background-image: url('https://gf1.geo.gfsrv.net/cdn62/e312aad9927e4aa12f58f65e73e584.jpg');
       background-size: cover;
       background-position: center;
       font-family: sans-serif;
+      min-height: 100vh;
     }
     .container {
       max-width: 600px;
       margin: 2rem auto;
       padding: 1rem;
-      /* Conteneur semi-transparent pour voir le fond */
-      background: rgba(255,255,255,0.7);
+      background: rgba(255,255,255,0.75);
       border-radius: 8px;
     }
     h1 { text-align: center; }
@@ -34,6 +36,7 @@
       width: 100%;
       table-layout: fixed;
     }
+    /* Colonnes fixes */
     th:nth-child(1), td:nth-child(1),
     th:nth-child(2), td:nth-child(2),
     th:nth-child(3), td:nth-child(3) {
@@ -46,7 +49,7 @@
       border: 1px solid #333;
       padding: 0.5rem;
       text-align: center;
-      background: rgba(255,255,255,0.8);
+      background: rgba(255,255,255,0.85);
     }
     input.small {
       width: 100%;

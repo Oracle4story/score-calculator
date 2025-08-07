@@ -5,7 +5,21 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Calculateur de Score 4Story</title>
   <style>
-    body { font-family: sans-serif; padding: 1rem; max-width: 600px; margin: auto; }
+    body {
+      margin: 0;
+      padding: 0;
+      background-image: url('https://gf1.geo.gfsrv.net/cdn62/e312aad9927e4aa12f58f65e73e584.jpg');
+      background-size: cover;
+      background-position: center;
+      font-family: sans-serif;
+    }
+    .container {
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background: rgba(255,255,255,0.9);
+      border-radius: 8px;
+    }
     h1 { text-align: center; }
     .form-group { margin-bottom: 1rem; }
     label { display: block; margin-bottom: 0.25rem; }
@@ -13,54 +27,61 @@
       width: 100%; padding: 0.5rem; box-sizing: border-box;
     }
     table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
-    th, td { border: 1px solid #333; padding: 0.5rem; text-align: center; }
-    input.small { width: 4ch; }
+    th, td {
+      border: 1px solid #333;
+      padding: 0.5rem;
+      text-align: center;
+      background: rgba(255,255,255,0.8);
+    }
+    input.small { width: 6ch; }
     .clean { color: #090; font-weight: bold; margin-top: 0.5rem; text-align: center; }
     #output { width: 100%; height: 12rem; }
     button { padding: 0.5rem 1rem; cursor: pointer; }
   </style>
 </head>
 <body>
-  <h1>Score 4Story</h1>
-  <div class="form-group">
-    <label for="pseudo">Pseudo :</label>
-    <input type="text" id="pseudo" placeholder="Votre pseudo">
-  </div>
-  <div class="form-group">
-    <label for="serveur">Serveur :</label>
-    <input type="text" id="serveur" placeholder="Nom du serveur">
-  </div>
-  <div class="form-group">
-    <label for="date">Date du BG :</label>
-    <input type="date" id="date">
-  </div>
-  <table>
-    <thead>
-      <tr>
-        <th>Kills (×2)</th>
-        <th>Assists (×1)</th>
-        <th>Morts (−1)</th>
-        <th>Score</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><input type="number" id="kills" value="0" min="0" class="small"></td>
-        <td><input type="number" id="assists" value="0" min="0" class="small"></td>
-        <td><input type="number" id="deaths" value="0" min="0" class="small"></td>
-        <td id="score">0</td>
-      </tr>
-    </tbody>
-  </table>
-  <p id="bonus" class="clean" style="display:none;">🎉 Clean ! +5 pts bonus</p>
-  <div class="form-group">
-    <label for="video">Lien vidéo :</label>
-    <input type="url" id="video" placeholder="https://">
-  </div>
-  <button id="generate">Générer le texte & copier</button>
-  <div class="form-group">
-    <label for="output">Texte à copier :</label>
-    <textarea id="output" readonly></textarea>
+  <div class="container">
+    <h1>Score 4Story</h1>
+    <div class="form-group">
+      <label for="pseudo">Pseudo :</label>
+      <input type="text" id="pseudo" placeholder="Votre pseudo">
+    </div>
+    <div class="form-group">
+      <label for="serveur">Serveur :</label>
+      <input type="text" id="serveur" placeholder="Nom du serveur">
+    </div>
+    <div class="form-group">
+      <label for="date">Date du BG :</label>
+      <input type="date" id="date">
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Kills (×2)</th>
+          <th>Assists (×1)</th>
+          <th>Morts (−1)</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="number" id="kills" value="0" min="0" class="small"></td>
+          <td><input type="number" id="assists" value="0" min="0" class="small"></td>
+          <td><input type="number" id="deaths" value="0" min="0" class="small"></td>
+          <td id="score">0</td>
+        </tr>
+      </tbody>
+    </table>
+    <p id="bonus" class="clean" style="display:none;">🎉 Clean ! +5 pts bonus</p>
+    <div class="form-group">
+      <label for="video">Lien vidéo :</label>
+      <input type="url" id="video" placeholder="https://">
+    </div>
+    <button id="generate">Générer le texte & copier</button>
+    <div class="form-group">
+      <label for="output">Texte à copier :</label>
+      <textarea id="output" readonly></textarea>
+    </div>
   </div>
 
   <script>

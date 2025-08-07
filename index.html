@@ -155,7 +155,7 @@
     </div>
     <button id="generate">Générer le texte & copier</button>
     <div class="form-group">
-      <label for="output">Code HTML à copier :</label>
+      <label for="output">Texte à copier :</label>
       <textarea id="output" readonly></textarea>
     </div>
   </div>
@@ -200,34 +200,31 @@
     }
 
     function generateText() {
-      const pseudo = elt.P.value.trim() || '—';
-      const serveur = elt.Srv.value.trim() || '—';
-      const dateBG = formatDate(elt.Dt.value) || '—';
-      const kills = elt.K.value;
-      const assists = elt.A.value;
-      const deaths = elt.D.value;
-      const score = calcScore();
-      const video = elt.Vid.value.trim() || '#';
+      const pseudo   = elt.P.value.trim()    || '—';
+      const serveur  = elt.Srv.value.trim()  || '—';
+      const dateBG   = formatDate(elt.Dt.value)|| '—';
+      const kills    = elt.K.value;
+      const assists  = elt.A.value;
+      const deaths   = elt.D.value;
+      const score    = calcScore();
+      const video    = elt.Vid.value.trim()  || '#';
 
-      // Génération du snippet HTML coloré
-      const html =
-`<table style="width:100%;border:2px solid #0066cc;border-collapse:collapse;">
-  <tr><th style="background:#0066cc;color:#fff;padding:6px;text-align:left;">Pseudo :</th><td style="padding:6px;">${pseudo}</td></tr>
-  <tr><th style="background:#005bb5;color:#fff;padding:6px;text-align:left;">Serveur :</th><td style="padding:6px;">${serveur}</td></tr>
-  <tr><th style="background:#0066cc;color:#fff;padding:6px;text-align:left;">Date du BG :</th><td style="padding:6px;">${dateBG}</td></tr>
-  <tr><th style="background:#005bb5;color:#fff;padding:6px;text-align:left;">Kills :</th><td style="padding:6px;">${kills}</td></tr>
-  <tr><th style="background:#0066cc;color:#fff;padding:6px;text-align:left;">Assists :</th><td style="padding:6px;">${assists}</td></tr>
-  <tr><th style="background:#005bb5;color:#fff;padding:6px;text-align:left;">Morts :</th><td style="padding:6px;">${deaths}</td></tr>
-  <tr><th style="background:#0066cc;color:#fff;padding:6px;text-align:left;">Points :</th><td style="padding:6px;">${score}</td></tr>
-  <tr><th style="background:#005bb5;color:#fff;padding:6px;text-align:left;">Lien vidéo :</th><td style="padding:6px;"><a href="${video}" target="_blank">Voir</a></td></tr>
-  <tr><th style="background:#0066cc;color:#fff;padding:6px;text-align:left;">Capture d'écran :</th><td style="padding:6px;">[Insérer capture]</td></tr>
-</table>`;
+      // Texte simple formaté
+      const text =
+`Pseudo : ${pseudo}
+Serveur : ${serveur}
+Date du BG : ${dateBG}
+Kills : ${kills}
+Assists : ${assists}
+Morts : ${deaths}
+Points ((Kills×2)+(Assists×1)−(Morts×1)) : ${score}
+Lien vidéo : ${video}`;
 
-      elt.Out.value = html;
+      elt.Out.value = text;
       elt.Out.classList.add('ready');
-      navigator.clipboard.writeText(html).then(() => {
-        elt.Btn.textContent='Copié !';
-        setTimeout(()=>elt.Btn.textContent='Générer le texte & copier',2000);
+      navigator.clipboard.writeText(text).then(() => {
+        elt.Btn.textContent = 'Copié !';
+        setTimeout(() => elt.Btn.textContent = 'Générer le texte & copier', 2000);
       });
     }
 

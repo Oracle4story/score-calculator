@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Calculateur de Score 4Story</title>
+  <style>
+    body { font-family: sans-serif; padding: 1rem; }
+    table { border-collapse: collapse; margin: auto; }
+    th, td { border: 1px solid #333; padding: 0.5rem 1rem; text-align: center; }
+    input { width: 4ch; }
+    .clean { color: #090; font-weight: bold; margin-top: 1rem; text-align: center; }
+  </style>
+</head>
+<body>
+  <h1>Score 4Story</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Kills (×2)</th>
+        <th>Assists (×1)</th>
+        <th>Morts (−1)</th>
+        <th>Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><input type="number" id="kills" value="0" min="0"></td>
+        <td><input type="number" id="assists" value="0" min="0"></td>
+        <td><input type="number" id="deaths" value="0" min="0"></td>
+        <td id="score">0</td>
+      </tr>
+    </tbody>
+  </table>
+  <p id="bonus" class="clean" style="display:none;">🎉 Clean ! +5 pts bonus</p>
+  <script>
+    const K = document.getElementById('kills'),
+          A = document.getElementById('assists'),
+          D = document.getElementById('deaths'),
+          S = document.getElementById('score'),
+          B = document.getElementById('bonus');
+
+    function update() {
+      const k = +K.value, a = +A.value, d = +D.value;
+      let score = k*2 + a - d;
+      if(d===0 && (k>0||a>0)) {
+        score += 5;
+        B.style.display = 'block';
+      } else {
+        B.style.display = 'none';
+      }
+      S.textContent = score;
+    }
+
+    [K,A,D].forEach(el => el.addEventListener('input', update));
+    update();
+  </script>
+</body>
+</html>
